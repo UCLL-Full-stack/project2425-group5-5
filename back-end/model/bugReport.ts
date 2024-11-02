@@ -1,0 +1,75 @@
+import { User } from "./user";
+
+export class BugReport{
+    private id?: number;
+    private user: User;
+    private title: string;
+    private description: string;
+    private resolved: boolean;
+
+    constructor( bugReport: {
+        id?: number;
+        user: User;
+        title: string;
+        description: string;
+        resolved: boolean;
+    }){
+        this.id = bugReport.id;
+        this.user = bugReport.user;
+        this.title = bugReport.title;
+        this.description = bugReport.description;
+        this.resolved = bugReport.resolved;
+    }
+
+    getId(): number | undefined {
+        return this.id;
+    }
+
+    getUser(): User {
+        return this.user;
+    }
+
+    getTitle(): string {
+        return this.title
+    }
+
+    getDescription(): string {
+        return this.description
+    }
+
+    getResolved(): boolean {
+        return this.resolved
+    }
+
+    validate( bugReport: {
+        id?: number;
+        user: User;
+        title: string;
+        description: string;
+        resolved: boolean;
+    }){
+        if(!bugReport.title.trim()) {
+            throw new Error('Title is required')
+        }
+
+        if(!bugReport.user){
+            throw new Error('User is required')
+        }
+
+        if(!bugReport.description.trim()) {
+            throw new Error('Description is required')
+        }
+
+        if(!bugReport.resolved) {
+            throw new Error('Resolved status is required')
+        }
+    }
+    equals(bugReport: BugReport): Boolean {
+        return(
+            this.title === bugReport.getTitle() &&
+            this.user === bugReport.getUser() &&
+            this.description === bugReport.getDescription() &&
+            this.resolved === bugReport.getResolved()
+        )
+    }
+}
