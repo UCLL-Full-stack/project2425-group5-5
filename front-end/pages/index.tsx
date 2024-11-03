@@ -31,20 +31,19 @@ const Home: React.FC = () => {
       </Head>
       <Header />
       <main className={styles.main}>
-        <span>
+        <span className={styles.sectiontitle}>
+          <h2 className={styles.h2}>
+            Bugsquashr home
+          </h2>
           <Image
             src="/images/bugsquasrlogo.png"
             alt="Courses Logo"
-            className={styles.vercelLogo}
             width={40}
-            height={40  }
+            height={40}
           />
         </span>
 
-        <div className={styles.description}>
-          <p>
-            placeholder text
-          </p>
+        <div>
           <section>
           {bugReports && (
             <BugReportOverviewTable bugReports={bugReports} />

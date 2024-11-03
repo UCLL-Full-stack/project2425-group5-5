@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from '@styles/home.module.css';
 import { BugReport } from '@types';
 
 type Props = {
@@ -17,10 +18,10 @@ const BugReportOverviewTable: React.FC<Props> = ({ bugReports }: Props) => {
       {bugReports && (
           <div>
             {bugReports.map((bugReport, index) => (
-            <section className="">
-              <h2>{bugReport.user.username}</h2>
+            <section className={styles.report}>
+              <h2>{bugReport.user.username + " @ {date} (date will come soon)"} </h2>
               <div key={index} onClick={() => handleSelectBugReport(bugReport)} role="button"> 
-                <div>{bugReport.title}</div>
+                <h4>{bugReport.title}</h4>
                 <div>{bugReport.description}</div>
               </div>
             </section>

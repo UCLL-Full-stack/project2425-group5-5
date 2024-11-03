@@ -1,17 +1,17 @@
 import Link from 'next/link';
 
 const Header: React.FC = () => {
-  return (
-    <header className="p-3 mb-3 border-bottom bg-dark bg-gradient">
-      <a className="fs-2 d-flex justify-content-center mb-2 mb-lg-0 text-white-50 text-decoration-none">
+  return ( //Yes, I shamelessly stole the header from the labs. Yes, I regret not checking what bootstrap can do...
+    <header className="p-2 border-bottom bg-success">
+      <a className="fs-2 d-flex justify-content-center mb-2 text-white text-decoration-none">
         {' '}
         BugSquashr
       </a>
       <nav className="nav justify-content-center">
-        <Link href="/" className="nav-link px-4 fs-5 text-white">
+        <Link href="/" className="nav-link px-4 fs-5 text-white-50">
           Home
         </Link>
-        <Link href="/login" className="nav-link px-4 fs-5 text-white">
+        <Link href="/login" className="nav-link px-4 fs-5 text-white-50">
           Login
         </Link>
       </nav>
