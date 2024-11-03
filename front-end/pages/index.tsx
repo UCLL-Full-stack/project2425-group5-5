@@ -11,22 +11,10 @@ import Modal from '@components/Modal';
   
 const Home: React.FC = () => {
   const [bugReports, setBugReports] = useState<Array<BugReport>>();
-    const [isModalOpen, setModalOpen] = useState(false); 
+  const [isModalOpen, setModalOpen] = useState(false); 
 
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-
-    const handleSubmit = (e: React.FormEvent) => {
-      e.preventDefault(); //prevent default submit behaviour
-      const testuser: User = {username: "temptestuser", password: "temptestpassword", usertype: "admin"} //haven't added login yet. this will be temporary test user for now.
-      const bugreport: BugReport = {user: testuser, title: title, description: description, resolved: false}
-      
-      bugReportService.addBugReport(bugreport)
-
-      setTitle(''); //clear title and description
-      setDescription('');
-      setModalOpen(false); //close modal
-    };
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
 
   const getBugReports = async () => {
       const response = await bugReportService.getAllBugReports();
@@ -37,6 +25,19 @@ const Home: React.FC = () => {
   useEffect(() => {
       getBugReports()
   }, [])
+
+  const handleSubmit = async (e: React.FormEvent) => { //comments are here to handle my own schizophrenia.
+    e.preventDefault(); //prevent default submit behaviour
+    const testuser: User = {id: 1, username: "testUser", password: "defaultpassword", usertype: "user"} //haven't added login yet. this will be temporary test user for now.
+    const bugreport: BugReport = {user: testuser, title: title, description: description, resolved: false}
+    await bugReportService.addBugReport(bugreport) //add bug
+    const response = await bugReportService.getAllBugReports(); //get updated list of bugs
+    const updatedBugReports = await response.json(); //await list of updated bugs
+    setBugReports(updatedBugReports); //set the list again to add new bug
+    setTitle(''); //clear title and description
+    setDescription('');
+    setModalOpen(false); //close modal
+  };
 
   return (
     <>

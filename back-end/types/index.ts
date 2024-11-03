@@ -10,7 +10,7 @@ type UserInput = {
 }
 
 type BugReportInput = {
-    id: number;
+    id?: number;
     user: UserInput;
     title: string;
     description: string;

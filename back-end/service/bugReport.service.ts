@@ -11,7 +11,7 @@ const createBugReport = ({
     resolved,
     user: userInput,
 }: BugReportInput): BugReport => {
-    if (!userInput.id) throw new Error('Course id is required');
+    if (!userInput.id) throw new Error('user id is required');
     if (!title || !description) throw new Error('Title and/or description are required');
     const user = userDb.getUserById({ id: userInput.id });
     if (!user) throw new Error('User not found');
