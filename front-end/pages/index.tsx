@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import bugReportService from '@services/bugReportService';
 import BugReportOverviewTable from '@components/BugReportOverviewTable';
 
-import { BugReport } from '@types';
+import { BugReport, User } from '@types';
 import Modal from '@components/Modal';
   
 const Home: React.FC = () => {
@@ -17,12 +17,15 @@ const Home: React.FC = () => {
     const [description, setDescription] = useState('');
 
     const handleSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      console.log('Title:', title);
-      console.log('Description:', description);
-      setTitle('');
+      e.preventDefault(); //prevent default submit behaviour
+      const testuser: User = {username: "temptestuser", password: "temptestpassword", usertype: "admin"} //haven't added login yet. this will be temporary test user for now.
+      const bugreport: BugReport = {user: testuser, title: title, description: description, resolved: false}
+      
+      bugReportService.addBugReport(bugreport)
+
+      setTitle(''); //clear title and description
       setDescription('');
-      setModalOpen(false);
+      setModalOpen(false); //close modal
     };
 
   const getBugReports = async () => {

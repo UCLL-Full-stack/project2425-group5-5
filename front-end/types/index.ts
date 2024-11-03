@@ -1,12 +1,14 @@
+type UserType = 'admin' | 'user'
+
 export type User = {
-    id: number;
+    id?: number;
     username: string;
     password: string;
-    usertype: string;
+    usertype: UserType;
 }
 
 export type BugReport = {
-    id: number;
+    id?: number;
     user: User;
     title: string;
     description: string;
