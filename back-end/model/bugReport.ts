@@ -14,11 +14,12 @@ export class BugReport{
         description: string;
         resolved: boolean;
     }){
+        this.validate(bugReport)
         this.id = bugReport.id;
         this.user = bugReport.user;
         this.title = bugReport.title;
         this.description = bugReport.description;
-        this.resolved = bugReport.resolved;
+        this.resolved = false;
     }
 
     getId(): number | undefined {
@@ -58,10 +59,6 @@ export class BugReport{
 
         if(!bugReport.description.trim()) {
             throw new Error('Description is required')
-        }
-
-        if(!bugReport.resolved) {
-            throw new Error('Resolved status is required')
         }
     }
     equals(bugReport: BugReport): Boolean {

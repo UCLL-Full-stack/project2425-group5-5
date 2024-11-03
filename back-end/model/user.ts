@@ -12,6 +12,7 @@ export class User{
         password: string;
         usertype: UserType;
     }){
+        this.validate(user)
         this.id = user.id;
         this.username = user.username;
         this.password = user.password;
@@ -46,6 +47,10 @@ export class User{
 
         if (!user.password?.trim()) {
             throw new Error('Password is required');
+        }
+
+        if (user.password.length < 8){
+            throw new Error('Password must be a least 8 characters')
         }
 
         if (!user.usertype){

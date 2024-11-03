@@ -3,8 +3,14 @@ import { User } from "../model/user";
 const users = [
     new User({
         id: 1,
+        username: "defaultuser",
+        password: "defaultpassword",
+        usertype: "user"
+    }),
+    new User({
+        id: 4,
         username: "Blahooga",
-        password: "blah123",
+        password: "blah12345",
         usertype: "user"
     }),
 ]

@@ -7,7 +7,7 @@ const bugReports = [
         user: new User({
             id: 1,
             username: "Blahooga",
-            password: "blah123",
+            password: "blahoog123",
             usertype: "user"
         }),
         title: "Clipping textures at misthaven cave entrance",
@@ -15,6 +15,11 @@ const bugReports = [
         resolved: false
     })
 ]
+
+const addBugReport = (bugReport : BugReport): BugReport => {
+    bugReports.push(bugReport);
+    return bugReport
+}
 
 const getBugReportById = ({id} : {id: number}) : BugReport | null => {
     try {
@@ -35,6 +40,8 @@ const getAllBugReports = () : BugReport[] => {
 }
 
 export default{
+    addBugReport,
     getBugReportById,
-    getAllBugReports
+    getAllBugReports,
+
 }

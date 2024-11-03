@@ -16,6 +16,9 @@
  *            username:
  *              type: string
  *              description: username.
+ *            password:
+ *              type: string
+ *              description: temporary string for passwords
  *            usertype:
  *              type: string
  *              description: admin or regular user.
