@@ -7,9 +7,23 @@ import bugReportService from '@services/bugReportService';
 import BugReportOverviewTable from '@components/BugReportOverviewTable';
 
 import { BugReport } from '@types';
+import Modal from '@components/Modal';
   
 const Home: React.FC = () => {
   const [bugReports, setBugReports] = useState<Array<BugReport>>();
+    const [isModalOpen, setModalOpen] = useState(false); 
+
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+
+    const handleSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
+      console.log('Title:', title);
+      console.log('Description:', description);
+      setTitle('');
+      setDescription('');
+      setModalOpen(false);
+    };
 
   const getBugReports = async () => {
       const response = await bugReportService.getAllBugReports();
@@ -50,6 +64,35 @@ const Home: React.FC = () => {
           )}
           </section>
         </div>
+
+        <button className={styles.addButton} onClick={() => setModalOpen(true)}>
+        <p>+</p>
+        </button>
+        
+        <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+          <form onSubmit={handleSubmit}>
+            <div>
+                <input  className={styles.input}
+                  placeholder='Title'
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  required
+                />
+            </div>
+            <div>
+                <textarea className={styles.input}
+                  placeholder='Description'
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  required
+                />
+            </div>
+            <button className={styles.submitbutton} type="submit">Submit</button>
+          </form>
+        </Modal>
+
+
       </main>
     </>
   );
