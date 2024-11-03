@@ -18,7 +18,21 @@ const addBugReport = async (bugreport: BugReport) => {
       body: JSON.stringify(bugreport),
     })
     if (!response.ok) {
-      
+      if (response.status === 400) {
+				const errorResponse: Map<string, string> = await response.json()
+				const errorMap: Map<string, string> = new Map(
+					Object.entries(errorResponse)
+				)
+
+				const errorMessages: string[] = []
+				errorMap.forEach((message, type) => {
+					errorMessages.push(`${type}: ${message}`)
+				})
+
+				throw new Error(errorMessages.join(", "))
+      } else {
+				throw new Error(`HTTP error with status: ${response.status}`)
+			}
     }
   } catch (error: any) {
     throw new Error(error.message)
