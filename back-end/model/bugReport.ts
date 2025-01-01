@@ -1,4 +1,5 @@
 import { User } from "./user";
+import { BugReport as BugReportPrisma, User as UserPrisma} from "@prisma/client"
 
 export class BugReport{
     private id?: number;
@@ -68,5 +69,15 @@ export class BugReport{
             this.description === bugReport.getDescription() &&
             this.resolved === bugReport.getResolved()
         )
+    }
+
+    static from({id, user, title, description, resolved}: BugReportPrisma & {user: UserPrisma}){
+        return new BugReport({
+            id,
+            title,
+            user: User.from(user),
+            description,
+            resolved
+        })
     }
 }
