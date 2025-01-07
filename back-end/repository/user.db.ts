@@ -1,32 +1,23 @@
 import { User } from "../model/user";
+import { Prisma } from "@prisma/client";
+import database from "./database";
 
-const users = [
-    new User({
-        id: 1,
-        username: "testUser",
-        password: "defaultpassword",
-        usertype: "user"
-    }),
-    new User({
-        id: 4,
-        username: "Blahooga",
-        password: "blah12345",
-        usertype: "user"
-    }),
-]
 
-const getUserById = ({id} : {id: number}) : User | null => {
+
+const getUserById = async({id} : {id: number}) : Promise<User | null> => {
     try {
-        return users.find((user) => user.getId() === id) || null;
+        const userPrisma = await database.user.findUnique({ where: { id }, });
+        return userPrisma ? User.from(userPrisma) : null;
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
     }
 }
 
-const getAllUsers = () : User[] => {
+const getAllUsers = async () : Promise<User[]> => {
     try {
-        return users;
+        const usersPrisma = await database.user.findMany();
+        return usersPrisma.map((userPrisma) => User.from(userPrisma))
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');

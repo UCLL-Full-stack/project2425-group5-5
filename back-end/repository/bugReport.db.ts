@@ -1,61 +1,54 @@
 import { BugReport } from "../model/bugReport";
 import { User } from "../model/user";
-const users = [
-    new User({
-        id: 1,
-        username: "Blahooga",
-        password: "blahoog123",
-        usertype: "user"
-    }),
-    new User({
-        id: 2,
-        username: "kiriko",
-        password: "kirikokone",
-        usertype: "admin"
-    })
-]
-const bugReports = [
-    new BugReport({
-        id:1,
-        user: users[0],
-        title: "Clipping textures at misthaven cave entrance",
-        description: "When arriving at misthaven cave, the door clips with the wall",
-        resolved: false
-    }),
-    new BugReport({
-        id:2,
-        user: users[1],
-        title: "door broken in stag garden",
-        description: "After boss battle with the stag in stag garden, the door does not open",
-        resolved: false
-    }),
-    new BugReport({
-        id:3,
-        user: users[0],
-        title: "Increasing frame drops during aurora events",
-        description: "When lightweaver starts aurora events, frames drop significantly",
-        resolved: false
-    }),
+import database from "./database";
 
-]
-
-const addBugReport = (bugReport : BugReport): BugReport => {
-    bugReports.push(bugReport);
-    return bugReport
+const createBugReport = async (bugReport : BugReport): Promise<BugReport> => {
+    try{
+        const bugReportPrisma = await database.bugReport.create({
+            data: {
+                title: bugReport.getTitle(),
+                description: bugReport.getTitle(),
+                resolved: bugReport.getResolved(),
+                user: {
+                    connect: {
+                        id: 1,
+                    }
+                }
+            }, include: {
+                user: true
+            }
+        })
+        return BugReport.from(bugReportPrisma)
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.')
+    }
 }
 
-const getBugReportById = ({id} : {id: number}) : BugReport | null => {
+const getBugReportById = async ({id} : {id: number}) : Promise<BugReport | null> => {
     try {
-        return bugReports.find((bugReport) => bugReport.getId() === id) || null;
+        const bugReportPrisma = await database.bugReport.findUnique({
+            where : { id }, 
+            include: {
+                user: true
+            }
+        })
+        return bugReportPrisma ? BugReport.from(bugReportPrisma) : null;
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
     }
 }
 
-const getAllBugReports = () : BugReport[] => {
+const getAllBugReports = async () : Promise<BugReport[]> => {
     try {
-        return bugReports;
+        const bugReportPrisma = await database.bugReport.findMany({
+             
+            include: {
+                user: true
+            }
+        })
+        return bugReportPrisma.map((bugReportPrisma) => BugReport.from(bugReportPrisma));
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
@@ -63,7 +56,7 @@ const getAllBugReports = () : BugReport[] => {
 }
 
 export default{
-    addBugReport,
+    createBugReport,
     getBugReportById,
     getAllBugReports,
 
