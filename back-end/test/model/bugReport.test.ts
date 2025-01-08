@@ -31,7 +31,7 @@ test('given: a valid bug report, when: bugreport is created, then: bugreport is 
     //when
     const testbugreport = new BugReport({
         id: validId,
-        user: user,
+        user: validuser,
         title: validtitle,
         description: validdescription,
         resolved: validresolved
@@ -43,4 +43,65 @@ test('given: a valid bug report, when: bugreport is created, then: bugreport is 
     expect(testbugreport.getTitle()).toEqual(validtitle)
     expect(testbugreport.getDescription()).toEqual(validdescription)
     expect(testbugreport.getResolved()).toEqual(validresolved)
+})
+
+test('given: an invalid bugreport, when: bugreport is created, then: bugreport throws error', () => {
+    //given
+    const validId = 2000
+    const validuser = user
+    const invalidtitle = ""
+    const validdescription = "testdesc"
+    const validresolved = false
+
+    //when
+    const testbugreport = () => new BugReport({
+        id: validId,
+        user: validuser,
+        title: invalidtitle,
+        description: validdescription,
+        resolved: validresolved
+    })
+
+    //then
+    expect(testbugreport).toThrow('Title is required')
+})
+
+test('given: an invalid bugreport, when: bugreport is created, then: bugreport throws error', () => {
+    //given
+    const validId = 2000
+    const validuser = user
+    const validtitle = "test"
+    const invaliddescription = ""
+    const validresolved = false
+
+    //when
+    const testbugreport = () => new BugReport({
+        id: validId,
+        user: validuser,
+        title: validtitle,
+        description: invaliddescription,
+        resolved: validresolved
+    })
+
+    //then
+    expect(testbugreport).toThrow('Description is required')
+})
+
+test('given: an invalid bugreport, when: bugreport is created, then: bugreport throws error', () => {
+    //given
+    const validuser = user
+    const validtitle = "test"
+    const validdescription = "testdesc"
+    const validresolved = false
+
+    //when
+    const testbugreport = new BugReport({
+        user: validuser,
+        title: validtitle,
+        description: validdescription,
+        resolved: validresolved
+    })
+
+    //then
+    expect(testbugreport.getId()).toBeUndefined()
 })

@@ -39,3 +39,29 @@ test('given: a 7 letter password, when: user is created, then: error is thrown f
     //then
     expect(testUser2).toThrow('Password must be a least 8 characters')
 })
+
+test('given: an empty password, when: user is created, then: error is thrown for password', () => {
+    //given
+    const validId: number = 1000
+    const validUsername = "validusername"
+    const invalidpassword = ""
+    const validUserType = "user"
+    //when
+    const testUser2 = () =>
+        new User({id: validId, username: validUsername, password: invalidpassword, usertype: validUserType})
+    //then
+    expect(testUser2).toThrow('Password is required')
+})
+
+test('given: an empty username, when: user is created, then: error is thrown for password', () => {
+    //given
+    const validId: number = 1000
+    const invalidusername = ""
+    const validpassword = "longpassword"
+    const validUserType = "user"
+    //when
+    const testUser2 = () =>
+        new User({id: validId, username: invalidusername, password: validpassword, usertype: validUserType})
+    //then
+    expect(testUser2).toThrow('Username is required')
+})

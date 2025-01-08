@@ -2,6 +2,8 @@ import { User } from "./user";
 import { BugReport as BugReportPrisma, User as UserPrisma} from "@prisma/client"
 
 export class BugReport{
+    private createdAt?: Date;
+    private updatedAt?: Date;
     private id?: number;
     private user: User;
     private title: string;
@@ -9,6 +11,8 @@ export class BugReport{
     private resolved: boolean;
 
     constructor( bugReport: {
+        createdAt?: Date;
+        updatedAt?: Date;
         id?: number;
         user: User;
         title: string;
@@ -17,6 +21,8 @@ export class BugReport{
     }){
         this.validate(bugReport)
         this.id = bugReport.id;
+        this.createdAt = bugReport.createdAt;
+        this.updatedAt = bugReport.updatedAt;
         this.user = bugReport.user;
         this.title = bugReport.title;
         this.description = bugReport.description;
@@ -25,6 +31,14 @@ export class BugReport{
 
     getId(): number | undefined {
         return this.id;
+    }
+
+    getCreatedAt(): Date | undefined {
+        return this.createdAt;
+    }
+
+    getUpdatedAt(): Date | undefined {
+        return this.updatedAt;
     }
 
     getUser(): User {
@@ -71,9 +85,11 @@ export class BugReport{
         )
     }
 
-    static from({id, user, title, description, resolved}: BugReportPrisma & {user: UserPrisma}){
+    static from({id, createdAt, updatedAt, user, title, description, resolved}: BugReportPrisma & {user: UserPrisma}){
         return new BugReport({
             id,
+            createdAt,
+            updatedAt,
             title,
             user: User.from(user),
             description,

@@ -6,7 +6,6 @@ import { BugReportInput } from "../types";
 import userService from "./user.service";
 
 const createBugReport =  async ({
-    id,
     title,
     description,
     resolved,
@@ -19,7 +18,7 @@ const createBugReport =  async ({
 
     if (!user) throw new Error('User not found');
 
-    const bugReport = new BugReport({id, title, description, resolved, user});
+    const bugReport = new BugReport({title, description, resolved, user});
     return bugReportDb.createBugReport(bugReport);
 };
 

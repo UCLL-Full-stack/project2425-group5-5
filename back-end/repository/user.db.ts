@@ -2,7 +2,21 @@ import { User } from "../model/user";
 import { Prisma } from "@prisma/client";
 import database from "./database";
 
-
+const createUser = async (user : User): Promise<User> => {
+    try{
+        const userPrisma = await database.user.create({
+            data: {
+                username: user.getUsername(),
+                password: user.getPassword(),
+                usertype: user.getUserType(),   
+            },
+        })
+        return User.from(userPrisma)
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.')
+    }
+}
 
 const getUserById = async({id} : {id: number}) : Promise<User | null> => {
     try {
@@ -25,6 +39,7 @@ const getAllUsers = async () : Promise<User[]> => {
 }
 
 export default{
+    createUser,
     getUserById,
     getAllUsers
 }
