@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from '@styles/home.module.css';
 import { BugReport } from '@types';
-
+import { format } from 'date-fns'
 type Props = {
   bugReports: Array<BugReport>;
 };
@@ -19,7 +19,7 @@ const BugReportOverviewTable: React.FC<Props> = ({ bugReports }: Props) => {
           <div>
             {bugReports.map((bugReport, index) => (
             <section className={styles.report}>
-              <h2>{bugReport.user.username + " @ {date} (date will come soon)"} </h2>
+              <h2>{bugReport.user.username + " @ " + format(new Date(bugReport.createdAt!), 'yyyy-MM-dd')} </h2>
               <div key={index} onClick={() => handleSelectBugReport(bugReport)} role="button"> 
                 <h4>{bugReport.title}</h4>
                 <div>{bugReport.description}</div>

@@ -9,8 +9,8 @@ export type User = {
 
 export type BugReport = {
     id?: number;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
     user: User;
     title: string;
     description: string;

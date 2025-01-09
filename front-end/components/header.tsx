@@ -14,6 +14,9 @@ const Header: React.FC = () => {
         <Link href="/login" className="nav-link px-4 fs-5 text-white-50">
           Login
         </Link>
+        <Link href="/user" className="nav-link px-4 fs-5 text-white-50">
+          user info
+        </Link>
       </nav>
     </header>
   );
