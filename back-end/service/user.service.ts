@@ -11,6 +11,11 @@ const getUserById = async (id : number): Promise<User> => {
     return user
 };
 
+const getUserByName = async (username : string): Promise<User[]> => {
+    const user = await UserDb.getUserByName({username})
+    return user
+};
+
 const createUser =  async ({
     id,
     username,
@@ -18,6 +23,7 @@ const createUser =  async ({
     usertype,
 }: UserInput): Promise<User> => {
     if (!username || !password || !usertype) throw new Error('Please fill in all information.');
+    if ((await getUserByName(username)).length > 0) throw new Error('User with name already exists');
     const user = new User({id, username, password, usertype});
     return userDb.createUser(user);
 };
@@ -25,5 +31,6 @@ const createUser =  async ({
 export default {
     createUser,
     getAllUsers,
+    getUserByName,
     getUserById
 }

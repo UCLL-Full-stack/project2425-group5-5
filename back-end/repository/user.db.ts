@@ -28,6 +28,16 @@ const getUserById = async({id} : {id: number}) : Promise<User | null> => {
     }
 }
 
+const getUserByName = async({username} : {username: string}) : Promise<User[]> => {
+    try {
+        const usersPrisma = await database.user.findMany({ where: { username }, });
+        return usersPrisma.map((userPrisma) => User.from(userPrisma))
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+}
+
 const getAllUsers = async () : Promise<User[]> => {
     try {
         const usersPrisma = await database.user.findMany();
@@ -41,5 +51,6 @@ const getAllUsers = async () : Promise<User[]> => {
 export default{
     createUser,
     getUserById,
-    getAllUsers
+    getAllUsers,
+    getUserByName
 }

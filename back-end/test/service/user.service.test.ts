@@ -39,10 +39,12 @@ const bugReport = new BugReport({
 
 let createUserMock: jest.Mock;
 let mockGetUserById: jest.Mock;
-
+let mockGetUserByName: jest.Mock;
 beforeEach(() => {
     mockGetUserById = jest.fn()
     createUserMock = jest.fn()
+    mockGetUserByName = jest.fn()
+
 })
 
 afterEach(() => {
@@ -68,4 +70,18 @@ test("given a valid user, when a user is being created, the user will be created
     expect(createUserMock).toHaveBeenCalledWith(
         new User({...userInput})
     )
+})
+
+test("given a duplicate user, when a user is being created, the error is thrown", async () => {
+    //given
+    userDb.getUserByName = mockGetUserByName.mockResolvedValue([user])
+    userDb.createUser = createUserMock;
+    //when
+    const createUser = async () => 
+        await userService.createUser({
+            ...userInput
+        })
+
+    //then
+    expect(createUser).rejects.toThrow('User with name already exists')
 })
