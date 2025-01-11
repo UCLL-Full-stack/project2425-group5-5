@@ -2,10 +2,10 @@ import { set } from "date-fns";
 import { BugReportInput, UserInput } from "../../types";
 import { BugReport } from "../../model/bugReport";
 import { User } from "../../model/user";
-import bugReportDb from "../../repository/bugReport.db";
 import userDb from "../../repository/user.db";
-import bugReportService from "../../service/bugReport.service";
 import userService from "../../service/user.service";
+import bcrypt, { hash } from 'bcrypt'
+
 
 const start = set(new Date(), { hours: 8, minutes: 30 });
 const end = set(new Date(), { hours: 10, minutes: 30 });
@@ -61,15 +61,14 @@ test("given a valid user, when a user is being created, the user will be created
     userDb.getUserById = mockGetUserById.mockResolvedValue(user)
     userDb.createUser = createUserMock;
     //when
+
     await userService.createUser({
         ...userInput
     })
 
     //then
     expect(createUserMock).toHaveBeenCalledTimes(1)
-    expect(createUserMock).toHaveBeenCalledWith(
-        new User({...userInput})
-    )
+    expect(createUserMock).toHaveBeenCalledWith(expect.objectContaining({id: 1,username: "testuser",usertype: "user"}))
 })
 
 test("given a duplicate user, when a user is being created, the error is thrown", async () => {

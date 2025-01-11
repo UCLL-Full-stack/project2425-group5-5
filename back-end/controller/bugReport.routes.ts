@@ -13,6 +13,10 @@
  *            id:
  *              type: number
  *              format: int64
+ *            createdAt:
+ *              type: Date
+ *            updatedAt:
+ *              type: Date
  *            user:
  *              $ref: '#/components/schemas/User'
  *            title:
@@ -54,6 +58,25 @@ bugReportRouter.get('/', async (req: Request, res: Response, next: NextFunction)
     }
 });
 
+/**
+ * @swagger
+ * /bugreports:
+ *   post:
+ *      summary: Create a bugreport
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/BugreportInput'
+ *      responses:
+ *         200:
+ *            description: The created bugreport object
+ *            content:
+ *              application/json:
+ *                schema:
+ *                  $ref: '#/components/schemas/BugReport'
+ */
 bugReportRouter.post('/',  async (req: Request, res: Response, next: NextFunction) => {
     try {
         const bugReport = <BugReportInput>req.body;

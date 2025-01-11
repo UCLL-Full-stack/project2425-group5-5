@@ -3,7 +3,7 @@ import { User } from "../model/user";
 type UserType = 'admin' | 'user'
 
 type UserInput = {
-    id: number;
+    id?: number;
     username: string;
     password: string;
     usertype: UserType;
@@ -17,9 +17,16 @@ type BugReportInput = {
     resolved: boolean;
 }
 
+type AuthenticationResponse = {
+    token: string;
+    username: string;
+    usertype: string;
+};
+
 export {
     UserType,
     UserInput,
     BugReportInput,
+    AuthenticationResponse,
 
 }

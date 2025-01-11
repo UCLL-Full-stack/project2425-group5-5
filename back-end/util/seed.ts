@@ -1,16 +1,18 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from 'bcrypt';
+
 
 const prisma = new PrismaClient
 
 const main = async () => {
-    await prisma.bugReport.deleteMany
-    await prisma.user.deleteMany
+    await prisma.bugReport.deleteMany()
+    await prisma.user.deleteMany()
 
 
     const userAdmin = await prisma.user.create({
         data: {
             username: "admin",
-            password: "genericpassword",
+            password: await bcrypt.hash('adminpassword', 12),
             usertype: "admin" //admin | user
         }
     })
@@ -18,7 +20,7 @@ const main = async () => {
     const userBlahooga = await prisma.user.create({
         data:{
             username: "blahooga",
-            password: "noinspirationforpasswodrs",
+            password: await bcrypt.hash('blahoog12345', 12),
             usertype: "user",
             bugReport: {
                 create: {
