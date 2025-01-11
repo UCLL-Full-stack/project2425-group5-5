@@ -4,7 +4,7 @@ export type User = {
     id?: number;
     username: string;
     password: string;
-    usertype: UserType;
+    usertype?: UserType;
 }
 
 export type BugReport = {
@@ -16,3 +16,8 @@ export type BugReport = {
     description: string;
     resolved: boolean;
 }
+
+export type StatusMessage = {
+    message: string;
+    type: "error" | "success";
+};

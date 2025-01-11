@@ -60,7 +60,7 @@
  */
 import express, { NextFunction, Request, Response } from 'express';
 import UserService from '../service/user.service';
-import { UserInput } from '../types';
+import { UserInput, UserType } from '../types';
 import userService from '../service/user.service';
 const userRouter = express.Router()
 
@@ -83,7 +83,9 @@ const userRouter = express.Router()
  */
 userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const users = await UserService.getAllUsers();
+        const request = req as Request & { auth: { username: string; usertype: UserType}}
+        const { username, usertype} = request.auth
+        const users = await UserService.getAllUsers({username, usertype});
         res.status(200).json(users);
     } catch (error) {
         next(error);

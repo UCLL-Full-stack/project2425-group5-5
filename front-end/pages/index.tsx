@@ -49,6 +49,7 @@ const Home: React.FC = () => {
       </Head>
       <Header />
       <main className={styles.main}>
+        
         <span className={styles.sectiontitle}>
           <h2 className={styles.h2}>
             Bugsquashr home
@@ -95,7 +96,6 @@ const Home: React.FC = () => {
             <button className={styles.submitbutton} type="submit">Submit</button>
           </form>
         </Modal>
-
 
       </main>
     </>

@@ -1,11 +1,20 @@
+import { UnauthorizedError } from "express-jwt";
 import { User } from "../model/user";
 import userDb from "../repository/user.db";
 import UserDb from "../repository/user.db";
-import { AuthenticationResponse, UserInput } from "../types";
+import { AuthenticationResponse, UserInput, UserType } from "../types";
 import { generateJwtToken } from '../util/jwt';
 import bcrypt from 'bcrypt'
 
-const getAllUsers = async (): Promise<User[]> => await UserDb.getAllUsers();
+const getAllUsers = async ({ username, usertype }: {username: string; usertype: UserType}): Promise<User[]> => {
+    if (usertype === 'admin') {
+        return await UserDb.getAllUsers(); 
+    } else if (usertype === 'user') {
+        return await userDb.getUserByName({username});
+    } else {
+        throw new UnauthorizedError("credentials_required", {message: "you are not authorized to view this source"}, )
+    }
+}
 
 const getUserById = async (id : number): Promise<User> => {
     const user = await UserDb.getUserById({id})
