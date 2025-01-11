@@ -28,10 +28,10 @@ const getUserById = async({id} : {id: number}) : Promise<User | null> => {
     }
 }
 
-const getUserByName = async({username} : {username: string}) : Promise<User[]> => {
+const getUserByName = async({username} : {username: string}) : Promise<User | null> => {
     try {
-        const usersPrisma = await database.user.findMany({ where: { username }, });
-        return usersPrisma.map((userPrisma) => User.from(userPrisma))
+        const userPrisma = await database.user.findFirst({ where: { username }, });
+        return userPrisma ? User.from(userPrisma) : null; 
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');

@@ -2,16 +2,16 @@ import { BugReport } from "../model/bugReport";
 import { User } from "../model/user";
 import database from "./database";
 
-const createBugReport = async (bugReport : BugReport): Promise<BugReport> => {
+const createBugReport = async (bugReport : BugReport, user: User): Promise<BugReport> => {
     try{
         const bugReportPrisma = await database.bugReport.create({
             data: {
                 title: bugReport.getTitle(),
-                description: bugReport.getTitle(),
+                description: bugReport.getDescription(),
                 resolved: bugReport.getResolved(),
                 user: {
                     connect: {
-                        id: 1,
+                        id: user.getId(),
                     }
                 }
             }, include: {

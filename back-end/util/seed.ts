@@ -11,6 +11,7 @@ const main = async () => {
 
     const userAdmin = await prisma.user.create({
         data: {
+            id: 1,
             username: "admin",
             password: await bcrypt.hash('adminpassword', 12),
             usertype: "admin" //admin | user
@@ -19,6 +20,7 @@ const main = async () => {
 
     const userBlahooga = await prisma.user.create({
         data:{
+            id: 2,
             username: "blahooga",
             password: await bcrypt.hash('blahoog12345', 12),
             usertype: "user",

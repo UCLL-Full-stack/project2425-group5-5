@@ -9,17 +9,17 @@ const createBugReport =  async ({
     title,
     description,
     resolved,
-    user: userInput,
+    user: User,
 }: BugReportInput): Promise<BugReport> => {
-    if (!userInput.id) throw new Error('user id is required');
-    if (!title || !description) throw new Error('Title and/or description are required');
+    const user = await userService.getUserByName(User.username!);
 
-    const user = await userService.getUserById(userInput.id);
+    if (!user || user.getId == null) throw new Error('no user found');
+    if (!title || !description) throw new Error('Title and/or description are required');
 
     if (!user) throw new Error('User not found');
 
     const bugReport = new BugReport({title, description, resolved, user});
-    return bugReportDb.createBugReport(bugReport);
+    return bugReportDb.createBugReport(bugReport, user);
 };
 
 const getAllBugReports = async (): Promise<BugReport[]> => bugReportDb.getAllBugReports();

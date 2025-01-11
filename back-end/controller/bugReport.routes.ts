@@ -28,6 +28,17 @@
  *            resolved:
  *              type: boolean
  *              description: boolean wether or not bug is resolved. default = false.
+ *      BugreportInput:
+ *          type: object
+ *          properties:
+ *            user: 
+ *              $ref: '#/components/schemas/UserInput'
+ *            title:
+ *              type: string
+ *              description: title of report
+ *            description: 
+ *              type: string
+ *              description: text of report
  */
 import express, { NextFunction, Request, Response } from 'express';
 import bugReportService from '../service/bugReport.service';
@@ -62,6 +73,8 @@ bugReportRouter.get('/', async (req: Request, res: Response, next: NextFunction)
  * @swagger
  * /bugreports:
  *   post:
+ *      security: 
+ *        - bearerAuth: []
  *      summary: Create a bugreport
  *      requestBody:
  *        required: true
@@ -75,7 +88,7 @@ bugReportRouter.get('/', async (req: Request, res: Response, next: NextFunction)
  *            content:
  *              application/json:
  *                schema:
- *                  $ref: '#/components/schemas/BugReport'
+ *                  $ref: '#/components/schemas/Bugreport'
  */
 bugReportRouter.post('/',  async (req: Request, res: Response, next: NextFunction) => {
     try {

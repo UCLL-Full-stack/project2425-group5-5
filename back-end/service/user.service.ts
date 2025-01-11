@@ -10,7 +10,8 @@ const getAllUsers = async ({ username, usertype }: {username: string; usertype: 
     if (usertype === 'admin') {
         return await UserDb.getAllUsers(); 
     } else if (usertype === 'user') {
-        return await userDb.getUserByName({username});
+        const user = await userDb.getUserByName({username})
+        return [user!];
     } else {
         throw new UnauthorizedError("credentials_required", {message: "you are not authorized to view this source"}, )
     }
@@ -22,8 +23,8 @@ const getUserById = async (id : number): Promise<User> => {
     return user
 };
 
-const getUserByName = async (username : string): Promise<User | undefined> => {
-    const user = (await UserDb.getUserByName({username})).at(0)
+const getUserByName = async (username : string): Promise<User | null> => {
+    const user = await UserDb.getUserByName({username})
     return user
 };
 
@@ -34,7 +35,8 @@ const createUser =  async ({
     usertype,
 }: UserInput): Promise<User> => {
     if (!username || !password || !usertype) throw new Error('Please fill in all information.');
-    if ((await getUserByName(username))) throw new Error('User with name already exists');
+    const existinguser = await getUserByName(username)
+    if (existinguser) throw new Error('User with name already exists');
     const hashedpassword = await bcrypt.hash(password, 12);
     const user = new User({id, username, password: hashedpassword, usertype});
     return userDb.createUser(user);
